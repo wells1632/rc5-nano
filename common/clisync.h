@@ -218,7 +218,7 @@
   }
 #else
   static inline int fastlock_trylock(fastlock_t *l) {
-    int result;
+    int result=0;
 
 # if defined(__GNUC__)
     /* note: no 'lock' prefix even on SMP since xchg is always atomic */
