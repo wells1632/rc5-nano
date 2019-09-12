@@ -250,7 +250,7 @@ static int _readwrite_hostname_and_port( int aswrite, const char *fn,
         foundport = 0;
     }
     if (!hostname)
-      hostname = "";
+      hostname = (char *)"";
     len = 0;
     hostbuf[len] = '\0';
     if (foundport)
@@ -423,19 +423,19 @@ static int _readwrite_fwallstuff(int aswrite, const char *fn, Client *client)
     WritePrivateProfileStringB( OPTION_SECTION, "httpport", NULL, fn);
     WritePrivateProfileStringB( OPTION_SECTION, "httpid", NULL, fn);
 
-    that = "";
+    that = (char *)"";
     if (client->uuehttpmode == 1 || client->uuehttpmode == 3)
-      that = "uue";
+      that = (char *)"uue";
     if (*that || GetPrivateProfileStringB( OPTSECT_NET, "encoding", "", scratch, sizeof(scratch), fn ))
       WritePrivateProfileStringB( OPTSECT_NET, "encoding", that, fn);
 
-    that = "";
+    that = (char *)"";
     if (client->uuehttpmode == 2 || client->uuehttpmode == 3)
-      that = "http";
+      that = (char *)"http";
     else if (client->uuehttpmode == 4)
-      that = "socks4";
+      that = (char *)"socks4";
     else if (client->uuehttpmode == 5)
-      that = "socks5";
+      that = (char *)"socks5";
     TRACE_OUT((0,"new set fwall-type=%s\n",that));
     if (*that || GetPrivateProfileStringB( OPTSECT_NET, "firewall-type", "", scratch, sizeof(scratch), fn ))
       WritePrivateProfileStringB( OPTSECT_NET, "firewall-type", that, fn);
