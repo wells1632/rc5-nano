@@ -1057,7 +1057,7 @@ int BufferUpdate( Client *client, int req_flags, int interactive )
   char loaderflags_map[CONTEST_COUNT];
   struct timeval tv;
   const char *ffmsg = "--fetch and --flush services are not available.\n";
-  int check_flags, updatefailflags, updatemodeflags, net_state_shown = 0;
+  int check_flags, updatefailflags, updatemodeflags;
   int fill_even_if_not_totally_empty = (client->connectoften || interactive);
   int break_pending = CheckExitRequestTriggerNoIO();
 
@@ -1192,8 +1192,6 @@ int BufferUpdate( Client *client, int req_flags, int interactive )
         didflush = 1;
       if ((check_flags & BUFFERUPDATE_STATE_NEWS)!=0)
         didnews = 1;
-      if ((check_flags & BUFFERUPDATE_STATE_MSGPOSTED)!=0)
-        net_state_shown = 1;
       if ((transerror = (check_flags & BUFFERUPDATE_STATE_TRANSERR))!=0)
         updatefailflags |= BUFFERUPDATE_MODE_NET;
       if (client->net_update_status == 0 && transerror != 0)
