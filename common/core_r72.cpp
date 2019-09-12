@@ -356,7 +356,6 @@ int apply_selcore_substitution_rules_rc572(int cindex, int device)
 int selcoreGetPreselectedCoreForProject_rc572(int device)
 {
   static long detected_type = -123;
-  static unsigned long detected_flags = 0;
   int cindex = -1;
 
   if (detected_type == -123) /* haven't autodetected yet? */
@@ -364,7 +363,6 @@ int selcoreGetPreselectedCoreForProject_rc572(int device)
     detected_type = GetProcessorType(1 /* quietly */, device);
     if (detected_type < 0)
       detected_type = -1;
-    detected_flags = GetProcessorFeatureFlags(device);
   }
 
   // PROJECT_NOT_HANDLED("you may add your pre-selected core depending on arch
@@ -445,7 +443,7 @@ int selcoreGetPreselectedCoreForProject_rc572(int device)
       #if defined(HAVE_ALTIVEC) /* OS+compiler support altivec */
       // Note : KKS 7540 (AltiVec) is now set as default for any unknown CPU ID
       // since new CPUs are likely to be improved G4/G5 class CPUs.
-      if ((detected_flags & CPU_F_ALTIVEC) != 0) //altivec?
+      if ((CPU_F_ALTIVEC) != 0) //altivec?
       {
         switch ( detected_type & 0xffff) // only compare the low PVR bits
         {
@@ -481,7 +479,7 @@ int selcoreGetPreselectedCoreForProject_rc572(int device)
       }
 
       #if defined(HAVE_ALTIVEC) /* OS+compiler support altivec */
-      if ((detected_flags & CPU_F_ALTIVEC) != 0) //altivec?
+      if ((CPU_F_ALTIVEC) != 0) //altivec?
       {
         switch ( detected_type & 0xffff) // only compare the low PVR bits
         {
@@ -494,8 +492,8 @@ int selcoreGetPreselectedCoreForProject_rc572(int device)
   // ===============================================================
   #elif (CLIENT_CPU == CPU_X86)
   {
-      int have_mmx = (detected_flags & CPU_F_MMX);
-      if (detected_flags & CPU_F_AVX2)
+      int have_mmx = (CPU_F_MMX);
+      if (CPU_F_AVX2)
         cindex = 12;
       else if (detected_type >= 0)
       {
@@ -583,7 +581,7 @@ int selcoreGetPreselectedCoreForProject_rc572(int device)
   // ===============================================================
   #elif (CLIENT_CPU == CPU_AMD64)
   {
-    if (detected_flags & CPU_F_AVX2)
+    if (CPU_F_AVX2)
       cindex = 4;
     else if (detected_type >= 0)
     {
