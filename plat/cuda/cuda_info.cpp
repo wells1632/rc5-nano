@@ -39,7 +39,7 @@ int GetNumberOfDetectedCUDAGPUs()
 
 long GetRawCUDAGPUID(int device, const char **cpuname)
 {
-  static char namebuf[40];
+  static char namebuf[56];
   int cores;
 
   namebuf[0] = '\0';
