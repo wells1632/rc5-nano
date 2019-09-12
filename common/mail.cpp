@@ -523,12 +523,12 @@ static int smtp_send_message_header( void * net,
   if (!destid)
     destid = statsid;
 
-    if (fromid)
+  if (fromid)
     {
       if (!*fromid)
         fromid = (char *)0;
     }
-    if (!fromid)
+  if (!fromid)
       fromid = destid;
 
   if (errcode == 0) //send the senders address
