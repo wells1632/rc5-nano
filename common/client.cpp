@@ -676,7 +676,7 @@ int main( int argc, char *argv[] )
   /* ... all the SPT_REUSEARGV types */
   if (needchange && strlen(argv[0]) >= strlen(defname))
   {
-    char *q = "RC5PROG";
+    char *q = (char *)"RC5PROG";
     int didset = 0;
     #if (CLIENT_OS == OS_SOLARIS) || (CLIENT_OS == OS_IRIX) || \
         (CLIENT_OS == OS_AIX) || (CLIENT_OS == OS_BEOS) || \
