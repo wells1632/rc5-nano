@@ -507,7 +507,7 @@ void DisplayHelp( const char * unrecognized_option )
     else
       strcpy( linebuffer, "Press '+' or '-' for the next/previous page,");
     strcat( linebuffer, " 'Esc' or 'Q' to quit... ");
-    LogScreenRaw( linebuffer );
+    LogScreenRaw( "%s", linebuffer );
 
     key = ConInKey(-1);
 
@@ -516,7 +516,7 @@ void DisplayHelp( const char * unrecognized_option )
     for (--i; i > 0; i--)
       linebuffer[i]=' ';
     linebuffer[0]='\r';
-    LogScreenRaw( linebuffer );
+    LogScreenRaw( "%s", linebuffer );
 
     if (CheckExitRequestTriggerNoIO())
       break;
