@@ -1307,7 +1307,7 @@ int utilGetPIDList( const char *procname, long *pidlist, int maxnumpids )
  */
 static int __utilIsUserIDAValidEmailAddress(const char *userid)
 {
-  const char *c = userid, *domain = NULL;
+  const char *c = userid;
   int username_length = 0;
   int domain_length = 0, domain_has_non_digits = 0, subdomains = 0;
   int last_was_dash = 0, last_was_dot = 0;
@@ -1344,7 +1344,6 @@ static int __utilIsUserIDAValidEmailAddress(const char *userid)
 
   if (*c == '@')
   {
-    domain = ++c;
     last_was_dot = 1; // the '@' is a separator, too
     subdomains = 1;
   }
