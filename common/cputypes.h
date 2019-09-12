@@ -546,13 +546,13 @@
 #endif
 
 #if !defined(CLIENT_OS)
-  #define CLIENT_OS        OS_LINUX
+  #define CLIENT_OS        OS_UNKNOWN
 #endif
 #if !defined(CLIENT_OS_NAME)
   #define CLIENT_OS_NAME   "**Unknown OS**"
 #endif
 #if !defined(CLIENT_CPU)
-  #define CLIENT_CPU       CPU_CUDA
+  #define CLIENT_CPU       CPU_UNKNOWN
 #endif
 #if defined(ASM_NONE)
   #undef CLIENT_CPU
