@@ -174,7 +174,7 @@
     #define CLIENT_OS_NAME "Linux"
     #define CLIENT_OS      OS_LINUX
   #endif
-#if defined(CUDA) && (defined(__i386__) || defined(__x86_64__) || defined(__amd64__) || defined(__arm64__) || defined(__ARM_ARCH_ISA_A64) || defined(__CUDACC__))
+#if defined(CUDA) && (defined(__i386__) || defined(__x86_64__) || defined(__amd64__) || defined(__arm64__) || defined(__ARM_ARCH_ISA_A64))
     #define CLIENT_CPU     CPU_CUDA
   #elif defined(ATI_STREAM) && (defined(__i386__) || defined(__x86_64__) || defined(__amd64__))
     #define CLIENT_CPU     CPU_ATI_STREAM
