@@ -181,12 +181,12 @@ static long SelfTestInternal( Client *client, unsigned int contest, int stress )
         !userbreak && successes >= 0L && threadpos < threadcount;
         threadpos++ )
   {
-    char lastmsg[100];
+    //    char lastmsg[100];
     unsigned int testnum;
 
     ClientEventSyncPost( CLIEVENT_SELFTEST_STARTED, &contest, sizeof(contest) );
     successes = 0L;
-    lastmsg[0] = '\0';
+    //    lastmsg[0] = '\0';
 
     runtime_sec = runtime_usec = 0;
     for ( testnum = 0 ; !userbreak && testnum < TEST_CASE_COUNT ; testnum++ )
