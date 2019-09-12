@@ -182,7 +182,7 @@ static const char *__get_logname( int logfileType, int logfileLimit,
     {
       case LOGFILETYPE_ROTATE:
       {
-        int tm_year = 0, tm_mon = 0, tm_mday = 0, tm_yday = 0;
+        int tm_year = 0, tm_mon = 0, tm_mday = 0;
         if (logfileLimit > 0 )
         {
           time_t ttime = time(NULL);
@@ -191,13 +191,12 @@ static const char *__get_logname( int logfileType, int logfileLimit,
           {
             if (currtm->tm_mon  >= 0  && currtm->tm_mon  < 12 &&
                 currtm->tm_year >= 70 && currtm->tm_year <= (9999-1900) &&
-                currtm->tm_mday >= 1  && currtm->tm_mday <= 31 &&
-                currtm->tm_yday >= 0  && currtm->tm_yday <= 366)
+                currtm->tm_mday >= 1  && currtm->tm_mday <= 31)
+
             {
               tm_year = currtm->tm_year; /* years since 1900*/  
               tm_mon = currtm->tm_mon;   /* months since January [0,11]*/ 
               tm_mday = currtm->tm_mday; /* day of the month [1,31]*/ 
-              tm_yday = currtm->tm_yday; /* days since January 1 [0, 365]*/ 
             }
           }
         }
