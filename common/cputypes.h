@@ -667,7 +667,9 @@
   (CLIENT_OS == OS_IOS) || (CLIENT_OS == OS_ANDROID)) && \
   ((CLIENT_CPU == CPU_CUDA) || (CLIENT_CPU == CPU_ATI_STREAM) || (CLIENT_CPU == CPU_OPENCL)))
   /* Necessary for streams to work correctly */
-  #define HAVE_POSIX_THREADS
+  #ifndef HAVE_POSIX_THREADS
+    #define HAVE_POSIX_THREADS
+  #endif
   #define _POSIX_THREADS_SUPPORTED
   #include <pthread.h>
   typedef pthread_t THREADID;
