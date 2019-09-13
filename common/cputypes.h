@@ -174,7 +174,7 @@
     #define CLIENT_OS_NAME "Linux"
     #define CLIENT_OS      OS_LINUX
   #endif
-#if defined(CUDA) && (defined(__i386__) || defined(__x86_64__) || defined(__amd64__) || defined(__arm64__) || defined(__ARM_ARCH_ISA_A64))
+  #if defined(CUDA) && (defined(__i386__) || defined(__x86_64__) || defined(__amd64__) || defined(__arm64__) || defined(__ARM_ARCH_ISA_A64))
     #define CLIENT_CPU     CPU_CUDA
   #elif defined(ATI_STREAM) && (defined(__i386__) || defined(__x86_64__) || defined(__amd64__))
     #define CLIENT_CPU     CPU_ATI_STREAM
@@ -200,9 +200,9 @@
     #define CLIENT_CPU     CPU_IA64
   #elif defined(__arm64__) || defined(__aarch64__)
     #define CLIENT_CPU     CPU_ARM64
- #elif defined(__ppc64__) || defined(__PPC64__)
+  #elif defined(__ppc64__) || defined(__PPC64__)
     #define CLIENT_CPU     CPU_PPC64   
-#elif defined(ARM) || defined(__arm__)
+  #elif defined(ARM) || defined(__arm__)
     #define CLIENT_CPU     CPU_ARM
   #elif defined(ASM_SPARC) || defined(__sparc__)
     #define CLIENT_CPU     CPU_SPARC
@@ -543,6 +543,12 @@
     #define CLIENT_CPU     CPU_ARM
   #endif
   #define CLIENT_OS        OS_ANDROID
+#elif defined(__NVCC__)
+/* The CUDA compiler for ARM64 doesn't pass on any OS or CPU information, so
+   we have to assume we are on a linux system at this point
+*/
+  #define CLIENT_CPU       CPU_CUDA
+  #define CLIENT_OS        OS_LINUX
 #endif
 
 #if !defined(CLIENT_OS)
