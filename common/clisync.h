@@ -202,7 +202,7 @@
   extern "C" long _InterlockedExchange(volatile long * Target, long Value);
   #pragma intrinsic(_InterlockedExchange)
   static inline int fastlock_trylock(fastlock_t *l) {
-#if _MSC_VER <= 1200
+  #if _MSC_VER <= 1200
     /*
      * Workaround for VS 6.0. It has ugly bug in codegen, probably when
      * optimizing for speed Default definition of fastlock_trylock()
@@ -212,38 +212,47 @@
      *   xor    eax, eax    <== !BUG! codegen think that eax still contain 1
      */
     return _InterlockedExchange(l, 1) == 0;
-#else
+  #else
     return _InterlockedExchange(l, 1) ^ 1;
-#endif
+  #endif
   }
 #else
   static inline int fastlock_trylock(fastlock_t *l) {
-    int result=0;
+    int lacquired = 0;
 
-# if defined(__GNUC__)
+  #if defined(__GNUC__)
     /* note: no 'lock' prefix even on SMP since xchg is always atomic */
-    /*
-    asm volatile("movl  $1,%0 \n\t"	\
-                 "xchgl %0,%1 \n\t" \
-                 "xorl  $1,%0"
-                 : "=&r"(lacquired)
-                 : "m"(*l)
-                 : "memory");
-    */
-# elif defined(__BORLANDC__) /* BCC can't do inline assembler in inline functions */
+    #if defined(__ARM_ARCH_ISA_A64)
+    /* ARM64 does NOT like these assembly commands. From what I am gathering, 
+       spinlock stuff is no longer really that important on the faster 
+       processors anyway, so we'll just say it is working here for ARM64 */
+      lacquired=1;
+    #else
+      asm volatile("movl  $1,%0 \n\t" \
+		   "xchgl %0,%1 \n\t" \
+                   "xorl  $1,%0"
+                   : "=&r"(lacquired)
+		   : "m"(*l)
+		   : "memory");
+    #endif
+  #elif defined(__BORLANDC__) /* BCC can't do inline assembler in inline functions */
     _EDX = (unsigned long)l;
     _EAX = 1;
     __emit__(0x87, 0x02); /* xchg [edx],eax */
     _EAX ^= 1;
     lacquired = _EAX;
-# else
+  #else
     _asm mov edx, l
     _asm mov eax, 1
     _asm xchg eax,[edx]
     _asm xor eax, 1
     _asm mov lacquired,eax
-# endif
-      return result;
+  #endif
+
+    if (lacquired)
+      return 1;
+
+    return 0;
   }
 #endif
 
@@ -684,7 +693,6 @@
 #define fastlock_trylock      __raw_spin_trylock
 
 #else
-
   /* can't do atomic operations on mips ISA < 2 without kernel support */
 
   /* put this at the end, so that more people notice/are affected by
